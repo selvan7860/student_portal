@@ -22,6 +22,4 @@ public class UserController {
     public GenericResponse addUser(@RequestBody UserDTO userDTO){
         return new GenericResponse(userService.addUser(userDTO));
     }
-
-
 }

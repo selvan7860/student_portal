@@ -12,6 +12,8 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private static final String EMAIL_ALREADY_EXISTS = "email already exists";
+
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -22,7 +24,7 @@ public class UserService {
         User user = new User();
         Optional<User> users = userRepository.findByEmail(userDTO.getEmail());
         if(users.isPresent()){
-            throw new CustomException("Email Already Exists", HttpStatus.BAD_REQUEST);
+            throw new CustomException(EMAIL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
         }
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
