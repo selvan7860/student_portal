@@ -18,6 +18,7 @@ public class UserDetailService {
 
     private static final String USER_IS_INVALID = "User not found";
     private static final String USER_ALREADY_EXISTS = "User already exists";
+    private static final String FILL_ALL_MANDATORY = "Fill all mandatory fields";
     private final UserRepository userRepository;
     private final UserDetailRepository userDetailRepository;
 
@@ -29,6 +30,7 @@ public class UserDetailService {
 
     public UserDetailDTO addUserDetail(UserDetailDTO userDetailDTO) {
         String userId = userDetailDTO.getUserId();
+        validationForUserDetailsDTO(userDetailDTO);
         alreadyUserExists(userId);
         validationForUser(userId);
         UserDetail userDetail = new UserDetail();
@@ -74,7 +76,7 @@ public class UserDetailService {
         }
     }
 
-    private void validationForUser(String userId) {
+    public void validationForUser(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if(ObjectUtils.isEmpty(user)){
             throw new CustomException(USER_IS_INVALID, HttpStatus.BAD_REQUEST);
@@ -97,5 +99,9 @@ public class UserDetailService {
         return userDetailDTO;
     }
 
-
+    private void validationForUserDetailsDTO(UserDetailDTO userDetailDTO) {
+        if(userDetailDTO.getFatherName().isEmpty() || userDetailDTO.getMotherName().isEmpty() || userDetailDTO.getFatherOccupation().isEmpty() || userDetailDTO.getMotherOccupation().isEmpty() || userDetailDTO.getAnnualIncome().isEmpty() || userDetailDTO.getFatherPhoneNo().isEmpty() || userDetailDTO.getMotherPhoneNo().isEmpty() || userDetailDTO.getPhoneNo().isEmpty() || userDetailDTO.getDepartment().isEmpty() ){
+            throw new CustomException(FILL_ALL_MANDATORY, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

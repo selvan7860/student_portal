@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
+
 @Entity
 @Table(name = "subjects")
 @Data
@@ -26,4 +28,7 @@ public class Subject{
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Semester semester;
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InternalMark> internalMarks;
 }

@@ -1,6 +1,5 @@
 package com.example.student_portal.dao;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,30 +7,29 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.ZonedDateTime;
-import java.util.List;
-
 @Entity
-@Table(name = "users")
+@Table(name = "internal_marks")
 @Data
 @NoArgsConstructor
-public class User {
+public class InternalMark {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    private String name;
-    private String email;
-    private String password;
+    private int mark;
 
-    @OneToOne
-    @JoinColumn(name = "user_detail_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private UserDetail userDetail;
+    private User user;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InternalMark> internalMarks;
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Subject subject;
+
 }
