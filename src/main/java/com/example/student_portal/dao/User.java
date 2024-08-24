@@ -25,6 +25,11 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String confirmPassword;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @OneToOne
     @JoinColumn(name = "user_detail_id")
